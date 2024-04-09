@@ -1,0 +1,53 @@
+// Define the Minecraft item class
+class MinecraftItem {
+    constructor(name) {
+        this.name = name;
+    }
+}
+
+// Define the crafting recipe class
+class CraftingRecipe {
+    constructor(result, ingredients) {
+        this.result = result;
+        this.ingredients = ingredients;
+    }
+}
+
+// Define the item "table"
+const table = new MinecraftItem("Table");
+
+// Define the crafting recipe for creating a table
+const tableCraftingRecipe = new CraftingRecipe(table, ["Oak Plank", "Oak Plank"]);
+
+// Function to check if the player has the required ingredients to craft an item
+function canCraft(playerInventory, recipe) {
+    for (const ingredient of recipe.ingredients) {
+        if (!playerInventory.includes(ingredient)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// Function to craft an item and update the player's inventory
+function craftItem(playerInventory, recipe) {
+    if (canCraft(playerInventory, recipe)) {
+        for (const ingredient of recipe.ingredients) {
+            const index = playerInventory.indexOf(ingredient);
+            playerInventory.splice(index, 1); // Remove the ingredient from the player's inventory
+        }
+        playerInventory.push(recipe.result.name); // Add the crafted item to the player's inventory
+        console.log("Crafting successful! You've crafted a " + recipe.result.name + ".");
+    } else {
+        console.log("You don't have the required ingredients to craft a " + recipe.result.name + ".");
+    }
+}
+
+// Example player inventory
+let playerInventory = ["Oak Plank", "Oak Plank", "Stone", "Iron Ingot"];
+
+// Crafting a table
+craftItem(playerInventory, tableCraftingRecipe);
+
+// Display the updated player inventory
+console.log("Updated player inventory:", playerInventory);
